@@ -82,8 +82,8 @@ def send_cv(request):
                 body = request.POST.get('body')  # E-posta içeriğini formdan al
                 # Eğer e-posta şablonu yoksa, varsayılan bir şablon oluştur
                 if not email_templates:
-                    default_subject = 'Varsayılan E-posta Konusu'
-                    default_body = 'Varsayılan E-posta İçeriği'
+                    default_subject = subject
+                    default_body = body
                     template = EmailTemplate.objects.create(subject=default_subject, body=default_body)
                 else:
                     # EmailTemplate modelini kullanarak e-posta konusu ve içeriğini veritabanına kaydet
@@ -124,7 +124,7 @@ def send_cv(request):
             messages.error(request, 'Lütfen geçerli bir e-posta adresi girin.')
     else:
         email_form = EmailForm()
-        messages.error(request, 'CV gönderme işlemi başarısız oldu.')
+        messages.info(request, 'Göndermek için gerekli bilgileri doldurun.')
 
     cvs = CV.objects.all()
 
@@ -132,17 +132,17 @@ def send_cv(request):
                   {'email_form': email_form, 'cvs': cvs, 'form': form, 'settings': current_settings,'email_data': email_data, 'email_templates': email_templates})
 
 
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from .forms import EmailSettingsForm
+from .models import EmailSettings
+
 def email_settings(request):
     current_settings = EmailSettings.objects.all()
 
     if request.method == 'POST':
         form = EmailSettingsForm(request.POST)
         if form.is_valid():
-            existing_settings = EmailSettings.objects.first()
-            if existing_settings:
-                messages.error(request, 'SMTP ayarları zaten kaydedilmiş. Yalnızca güncelleme yapabilirsiniz.')
-                return redirect('send_cv')
-
             form.save()
             messages.success(request, 'SMTP ayarları başarıyla kaydedildi.')
             return redirect('send_cv')

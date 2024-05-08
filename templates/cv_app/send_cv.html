@@ -51,6 +51,10 @@
             background-color: #f8d7da;
             color: #721c24;
         }
+        .info {
+            background-color: #cce5ff;
+            color: #004085;
+        }
 
         .data-table {
             width: 100%;
@@ -159,13 +163,21 @@
 </head>
 <body>
     <div class="container">
+
         <div class="smtp-settings">
             <h3>Mevcut Bilgiler</h3>
+               {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
             <form method="post" action="{% url 'send_cv' %}">
                 {% csrf_token %}
                 <select name="selected_settings">
-                    <option value="" selected disabled>SMTP Ayarlarını Seçin</option>
                     {% for setting in settings %}
+
                         <option value="{{ setting.id }}">{{ setting }}</option>
                     {% endfor %}
                 </select><br><br>
