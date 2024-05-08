@@ -171,6 +171,12 @@
                     {% endfor %}
                 </select><br><br>
                 <input type="email" name="email" placeholder="E-posta adresi">
+          <label for="subject">Konu:</label><br>
+    <input type="text" id="subject" name="subject" placeholder="E-posta konusu" value="{{ email_data.subject }}"><br><br>
+
+    <label for="body">İçerik:</label><br>
+    <textarea id="body" name="body" placeholder="E-posta içeriği">{{ email_data.body }}</textarea><br><br>
+
                 <button type="submit">Gönder</button>
             </form>
         </div>
