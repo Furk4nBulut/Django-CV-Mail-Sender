@@ -177,8 +177,7 @@
                 {% csrf_token %}
                 <select name="selected_settings">
                     {% for setting in settings %}
-
-                        <option value="{{ setting.id }}">{{ setting }}</option>
+                        <option value="{{ setting.id }}" >{{ setting }}</option>
                     {% endfor %}
                 </select><br><br>
           <label for="subject">Alıcı:</label><br>
