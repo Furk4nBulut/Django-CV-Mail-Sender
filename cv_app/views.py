@@ -148,6 +148,8 @@ def email_settings(request):
             return redirect('send_cv')
         else:
             messages.error(request, 'Formda geçersiz veri var. Lütfen tekrar deneyin.')
+            return redirect('send_cv')
+
     else:
         form = EmailSettingsForm()
         messages.error(request, 'SMTP ayarları kaydedilemedi.')
