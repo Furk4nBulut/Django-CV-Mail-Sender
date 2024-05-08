@@ -126,6 +126,35 @@
         .smtp-settings button:hover {
             background-color: #45a049;
         }
+
+        /* Gönder düğmesi stilleri */
+        .send-button-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .send-button-container input[type="email"] {
+            width: calc(100% - 100px);
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        .send-button-container button {
+            width: 100px;
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .send-button-container button:hover {
+            background-color: #45a049;
+        }
     </style>
 </head>
 <body>
@@ -133,15 +162,16 @@
         <h2>SMTP Ayarları</h2>
         <div class="smtp-settings">
             <h3>Mevcut Ayarlar</h3>
-            <form method="post">
+            <form method="post" action="{% url 'send_cv' %}">
                 {% csrf_token %}
                 <select name="selected_settings">
                     <option value="" selected disabled>SMTP Ayarlarını Seçin</option>
                     {% for setting in settings %}
-                        <option value="{{ setting.id }}">{{ setting.email_host_user }}</option>
+                        <option value="{{ setting.id }}">{{ setting }}</option>
                     {% endfor %}
                 </select><br><br>
-                <button type="submit">Seç</button>
+                <input type="email" name="email" placeholder="E-posta adresi">
+                <button type="submit">Gönder</button>
             </form>
         </div>
 
@@ -175,6 +205,7 @@
             </thead>
             <tbody>
                 {% for cv in cvs %}
+                    
                     <tr>
                         <td>{{ forloop.counter }}</td>
                         <td>{{ cv.email }}</td>

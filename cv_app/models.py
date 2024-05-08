@@ -15,7 +15,7 @@ from django.db import models
 class EmailSettings(models.Model):
     email_host = models.CharField(max_length=100)
     email_port = models.IntegerField()
-    email_host_user = models.EmailField()
+    email_host_user = models.EmailField(unique=True)
     email_host_password = models.CharField(max_length=100)
     email_use_tls = models.BooleanField()
 
